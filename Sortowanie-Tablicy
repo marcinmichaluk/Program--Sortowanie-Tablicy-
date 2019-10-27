@@ -1,119 +1,216 @@
-#include <cstdio>;
-#include <iostream>;
-#include <cstdlib>;
-#include <ctime>;
-using namespace std;
-int* tablica(int rozmiar)
+package trojkat;
+
+import java.lang.Math;
+import java.util.Scanner;
+
+public class triagle 
 {
-	//srand(time(NULL));
-	int* w;
-	w = (int*)malloc(sizeof(int)*rozmiar);
-	for (int i = 0; i < rozmiar; ++i)
+	public double side1;
+	public double side2;
+	public double side3;
+	
+	public triagle (double a, double b, double c )
 	{
-		w[i] = (std::rand() % 302) - 1;
-	}
-	return &w[0];
-	free(w);
-}
-int* get_min_element(int* poczatek_tablicy, int rozmiar)
-{
-	int* najmniejszy_element = poczatek_tablicy;
-	int* nastepny_element;
-	for (int i = 1; i < rozmiar; i++)
-	{
-		nastepny_element = poczatek_tablicy + i;
-		if (*najmniejszy_element > *nastepny_element)
+		Scanner scan=new Scanner(System.in);
+		for(int i=1 ;i<10; )
 		{
-			najmniejszy_element = nastepny_element;
+			if(a+b>c && b+c>a && c+a>b  )
+			{
+			side1=a;
+			side2=b;
+			side3=c;
+			break;
+			}
+			else
+			{
+				System.out.println("Podano nieprawidlowe wymiary trojkata ");
+				System.out.println("Spróbój ponownie ");
+				System.out.println("Podaj dlugosc 1 boku trojkata. ");
+				a=scan.nextDouble();
+				System.out.println("Podaj dlugosc 2 boku trojkata. ");
+				b=scan.nextDouble();
+				System.out.println("Podaj dlugosc 3 boku trojkata. ");
+			    c=scan.nextDouble();
+			}
+			
 		}
 	}
-	return najmniejszy_element;
-}
-void exch(int* a, int* b)
-{
-	int c;
-	c = *a;
-	*a = *b;
-	*b = c;
-}
-void sortuj(int rozmiar, int* poczatek_tablicy)
-{
-	int* pierwszy_element = poczatek_tablicy;
-	int* najmniejszy_element;
-	int i = 0;
-	int a = rozmiar;
-	int* b;
-	for (rozmiar; rozmiar > 0; rozmiar--)
+	public double circuit(triagle a )
 	{
-		pierwszy_element = poczatek_tablicy + i;
-		najmniejszy_element = get_min_element(pierwszy_element, rozmiar);
-		exch(najmniejszy_element, pierwszy_element);
-		for (int j = 0; j < a; j++)
+		double cir= a.side1+a.side2+a.side3; 
+		return cir;
+	}
+	public void area(triagle a)
+	{
+		double p=a.circuit(a)/2; 
+		double ar=Math.sqrt(p*(p-a.side1)*(p-a.side2)*(p-a.side3));
+		System.out.println("Pole trojkata wynosi "+ar);
+	}
+	public void sort(triagle a)
+	{
+		System.out.print("Sortowanie długości boków: ");
+		double max=a.maxSide(a);
+		if( max == a.side1 && a.side1==a.side2 && a.side1==a.side3 && a.side2==a.side3)
 		{
-			b = poczatek_tablicy + j;
-			cout << *b << " ";
+			System.out.print(side1+" ");
+			System.out.print(side2+" ");
+			System.out.print(side3);
 		}
-		cout << endl;
-		i++;
+		if( max == a.side1 && ( a.side3 != a.side2))
+		{
+			System.out.print(side1+" ");
+			if(a.side2<=a.side3)
+			{
+				System.out.print(a.side3+" ");
+				System.out.print(a.side2);
+			}
+			if(a.side2>=a.side3)
+			{
+				System.out.print(a.side2+" ");
+				System.out.print(a.side3);
+			}
+		}
+		if( max == a.side2 && ( a.side3 != a.side1))
+		{
+			System.out.print(side2+" ");
+			if(a.side3<=a.side1)
+			{
+				System.out.print(a.side1+" ");
+				System.out.print(a.side3);
+			}
+			if(a.side3>=a.side1)
+			{
+				System.out.print(a.side3+" ");
+				System.out.print(a.side1);
+			}
+		}
+		if( max == a.side3 && (a.side1 != a.side2))
+		{
+			System.out.print(side3+" ");
+			if(a.side2<=a.side1)
+			{
+				System.out.print(a.side1+" ");
+				System.out.print(a.side2);
+			}
+			if(a.side2>=a.side1)
+			{
+				System.out.print(a.side2+" ");
+				System.out.print(a.side1);
+			}
+		}
+		System.out.println();
+	}
+	public void ifrectangular(triagle a)
+	{
+		double max=a.maxSide(a);
+		if( max == a.side1)
+		{
+			if(max*max== (a.side2* a.side2) +(a.side3*a.side3) )
+			{
+				System.out.println("Trojkat jest prostokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest prostokatny");
+			}
+		}
+		if( max == a.side2 && (a.side1 != a.side3))
+		{
+			if(max*max== (a.side3* a.side3) +(a.side1*a.side1) )
+			{
+				System.out.println("Trojkat jest prostokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest prostokatny");
+			}
+		}
+		if( max == a.side3 && (a.side1 != a.side2))
+		{
+			if(max*max== (a.side2* a.side2) +(a.side1*a.side1) )
+			{
+				System.out.println("Trojkat jest prostokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest prostokatny");
+			}
+		}
+		
+	}
+	public void ifobtuse(triagle a)
+	{
+		double max=a.maxSide(a);
+		if( max == a.side1)
+		{
+			if(max*max> (a.side2* a.side2) +(a.side3*a.side3) )
+			{
+				System.out.println("Trojkat jest rozwartokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest rozwartokatny");
+			}
+		}
+		if( max == a.side2 && (a.side1 != a.side3))
+		{
+			if(max*max> (a.side3* a.side3) +(a.side1*a.side1) )
+			{
+				System.out.println("Trojkat jest rozwartokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest rozwartokatny");
+			}
+		}
+		if( max == a.side3 && (a.side1 != a.side2))
+		{
+			if(max*max> (a.side2* a.side2) +(a.side1*a.side1) )
+			{
+				System.out.println("Trojkat jest rozwartokatny ");
+			}
+			else
+			{
+				System.out.println("Trojkat nie jest rozwartokatny");
+			}
+		}
+		
+	}
+	public double maxSide(triagle a)
+	{
+		double max=a.side1 ;
+		if(max<a.side2)
+		{
+			max=a.side2;
+		}
+		if(max<a.side3)
+		{
+			max=a.side3;
+		}
+		return max;
+	}
+	public void show()
+	{
+		System.out.println("Bok 1= "+side1);
+		System.out.println("Bok 2= "+side2);
+		System.out.println("Bok 3= "+side3);
+	}
+	public static void main(String[]args)
+	{
+		Scanner scan=new Scanner(System.in);
+		System.out.println("Podaj dlugosc 1 boku trojkata. ");
+		double a=scan.nextDouble();
+		System.out.println("Podaj dlugosc 2 boku trojkata. ");
+		double b=scan.nextDouble();
+		System.out.println("Podaj dlugosc 3 boku trojkata. ");
+		double c=scan.nextDouble();
+		triagle tri=new triagle(a,b,c);
+		tri.show();
+		tri.circuit(tri);
+		tri.area(tri);
+		tri.sort(tri);;
+		tri.ifrectangular(tri);
+		tri.ifobtuse(tri);
 	}
 
-}
-void compexch(int*a, int*b)
-{
-	if (*a > *b)
-	{
-		exch(a, b);
-	}
-}
-void babelkowe(int rozmiar, int* poczatek_tablicy)
-{
-	int* pierwszy_element;
-	int* nastepny_element;
-	int a = rozmiar;
-	int*b;
-	for (int i=0; i<rozmiar;i++)
-	{
-		for (int j=1 ;j<rozmiar;j++)
-		{
-			pierwszy_element = poczatek_tablicy + (j-1) ;
-			nastepny_element = poczatek_tablicy + j;
-			compexch(pierwszy_element, nastepny_element);
-			for (int k = 0; k < a; k++)
-			{
-				b = poczatek_tablicy + k;
-				cout << *b << " ";
-			}
-			cout << endl;
-		}
-	}
-}
-int main()
-{
-	cout << "Podaj rozmiar tablicy; " << endl;
-	int rozmiar;
-	cin >> rozmiar;
-	int *poczatek_tablicy = tablica(rozmiar);
-	int *a;
-	cout << "Losowe liczby :  ";
-	for (int i = 0; i < rozmiar; i++)
-	{
-		a = poczatek_tablicy + i;
-		cout << *a << " ";
-	}
-	cout << endl;
-	cout << "Wybierz rodzaj sortowania, naciskajac 1 lub 2 :" << endl;
-	cout << "1. Sortowanie przez wybieranie " << endl;
-	cout << "2. Sortowanie babelkowe" << endl;
-	char rodzaj;
-	cin >> rodzaj;
-	if (rodzaj == '1')
-	{
-		sortuj(rozmiar, poczatek_tablicy);
-	}
-	if (rodzaj == '2')
-	{
-		babelkowe(rozmiar, poczatek_tablicy);
-	}
-	system("pause");
-	return 0;
 }
